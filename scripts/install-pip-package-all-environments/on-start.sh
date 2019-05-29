@@ -5,6 +5,8 @@ set -e
 # OVERVIEW
 # This script installs a single pip package in all SageMaker conda environments, apart from the JupyterSystemEnv which is a 
 # system environment reserved for Jupyter.
+# Note this may timeout if the package installations in all environments take longer than 5 mins, consider using "nohup" to run this 
+# as a background process in that case.
 
 sudo -u ec2-user -i <<'EOF'
 

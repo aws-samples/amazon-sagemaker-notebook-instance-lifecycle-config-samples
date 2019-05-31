@@ -2,7 +2,7 @@
 
 ### Overview
 
-A collection of sample scripts to customize Amazon SageMaker Notebook Instances using Lifecycle Configurations
+A collection of sample scripts to customize [Amazon SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi.html) using [Lifecycle Configurations](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html)
 
 Lifecycle Configurations provide a mechanism to customize Notebook Instances via shell scripts that are executed during the lifecycle of a Notebook Instance.
 

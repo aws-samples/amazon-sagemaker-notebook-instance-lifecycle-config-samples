@@ -48,8 +48,8 @@ RESOURCE_NAME="$SCRIPT_NAME-$RANDOM"
 # Add any script specific options such as subnet-id
 aws sagemaker create-notebook-instance-lifecycle-config \
     --notebook-instance-lifecycle-config-name "$RESOURCE_NAME" \
-    --on-start Content=$(cat scripts/$SCRIPT_NAME/on-start.sh || echo ""| base64) \
-    --on-create Content=$(cat scripts/$SCRIPT_NAME/on-create.sh || echo ""| base64)
+    --on-start Content=$((cat scripts/$SCRIPT_NAME/on-start.sh || echo "")| base64) \
+    --on-create Content=$((cat scripts/$SCRIPT_NAME/on-create.sh || echo "")| base64)
 
 aws sagemaker create-notebook-instance \
     --notebook-instance-name "$RESOURCE_NAME" \

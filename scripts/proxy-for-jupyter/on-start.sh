@@ -1,8 +1,16 @@
+# This script configures proxy settings for your Jupyter notebooks and the SageMaker notebook instance.
+# This is useful for use cases where you would like to configure your notebook instance in your custom VPC
+# without direct internet access to route all traffic via a proxy server in your VPC.
+
+# Please ensure that you have already configure a proxy server in your VPC.
+
 #!/bin/bash
  
 set -e
 
 su - ec2-user -c "mkdir /home/ec2-user/.ipython/ && mkdir /home/ec2-user/.ipython/profile_default/ && mkdir /home/ec2-user/.ipython/profile_default/startup/ && touch /home/ec2-user/.ipython/profile_default/startup/00-startup.py"
+
+# Please replace proxy.local:3128 with the URL of your proxy server eg, proxy.example.com:80 and proxy.example.com:443
 
 echo "export http_proxy='http://proxy.local:3128'" | tee -a /home/ec2-user/.profile >/dev/null
 echo "export https_proxy='http://proxy.local:3128'" | tee -a /home/ec2-user/.profile >/dev/null

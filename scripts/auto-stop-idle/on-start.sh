@@ -15,7 +15,7 @@ set -e
 IDLE_TIME=3600
 
 echo "Fetching the autostop script"
-wget https://raw.githubusercontent.com/fernbach/amazon-sagemaker-notebook-instance-lifecycle-config-samples/master/scripts/auto-stop-idle/autostop.py
+wget https://raw.githubusercontent.com/aws-samples/amazon-sagemaker-notebook-instance-lifecycle-config-samples/master/scripts/auto-stop-idle/autostop.py
 
 echo "Starting the SageMaker autostop script in cron"
 

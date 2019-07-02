@@ -11,7 +11,6 @@ set -e
 #   1. Ensure the Notebook Instance has internet connectivity to fetch the example config
 #   2. Ensure the Notebook Instance execution role permissions to SageMaker:StopNotebookInstance to stop the notebook
 #
-# https://aws.amazon.com/cloudwatch/pricing/
 
 # PARAMETERS
 IDLE_TIME=3600

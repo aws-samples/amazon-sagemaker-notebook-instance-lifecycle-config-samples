@@ -3,11 +3,13 @@
 set -e
 
 # OVERVIEW
-# This script publishes the system-level metrics from the Notebook instance to Cloudwatch.
+# This script stops a SageMaker notebook once it's idle for more then 1 hour (default time)
+# You can change the idle time for stop using the environment variable bellow.
+# If you want the notebook the stop if it's idle and a user is still connected, add the --ignore-connections flag
 #
 # Note that this script will fail if either condition is not met
 #   1. Ensure the Notebook Instance has internet connectivity to fetch the example config
-#   2. Ensure the Notebook Instance execution role permissions to cloudwatch:PutMetricData to publish the system-level metrics
+#   2. Ensure the Notebook Instance execution role permissions to SageMaker:StopNotebookInstance to stop the notebook
 #
 # https://aws.amazon.com/cloudwatch/pricing/
 

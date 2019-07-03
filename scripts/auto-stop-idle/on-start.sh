@@ -5,7 +5,7 @@ set -e
 # OVERVIEW
 # This script stops a SageMaker notebook once it's idle for more then 1 hour (default time)
 # You can change the idle time for stop using the environment variable bellow.
-# If you want the notebook the stop if it's idle and a user is still connected, add the --ignore-connections flag
+# If you want the notebook the stop only if no browsers are open, remove the --ignore-connections flag
 #
 # Note that this script will fail if either condition is not met
 #   1. Ensure the Notebook Instance has internet connectivity to fetch the example config
@@ -20,4 +20,4 @@ wget https://raw.githubusercontent.com/aws-samples/amazon-sagemaker-notebook-ins
 
 echo "Starting the SageMaker autostop script in cron"
 
-(crontab -l 2>/dev/null; echo "5 * * * * /usr/bin/python $PWD/autostop.py --time $IDLE_TIME") | crontab -
+(crontab -l 2>/dev/null; echo "5 * * * * /usr/bin/python $PWD/autostop.py --time $IDLE_TIME --ignore-connections") | crontab -

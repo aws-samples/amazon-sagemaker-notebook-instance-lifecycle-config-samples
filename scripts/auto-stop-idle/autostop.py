@@ -13,9 +13,10 @@
 
 import requests
 from datetime import datetime
-import getopt, sys, re
+import getopt, sys
 import urllib3
 import boto3
+import json
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -76,12 +77,10 @@ def is_idle(last_activity):
 
 
 def get_notebook_name():
-    pattern = 'notebookInstanceArn=(arn:(aws[a-zA-Z-]*)?:sagemaker:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:(notebook-instance\/([a-zA-Z0-9_-]*)))'
-    log_path = '/var/log/nbiagent.log'
+    log_path = '/opt/ml/metadata/resource-metadata.json'
     with open(log_path, 'r') as logs:
-        _logs = logs.read()
-        notebook = re.search(pattern, _logs).group(8)
-    return notebook
+        _logs = json.load(logs)
+    return _logs['ResourceArn']
 
 response = requests.get('https://localhost:'+port+'/api/sessions', verify=False)
 data = response.json()

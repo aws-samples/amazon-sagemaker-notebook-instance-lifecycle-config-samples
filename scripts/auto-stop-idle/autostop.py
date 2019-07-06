@@ -17,7 +17,7 @@ import getopt, sys, re
 import urllib3
 import boto3
 
-urllib3.disable_warnings(urllib3.excepqqtions.InsecureRequestWarning)
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Usage
 usageInfo = """Usage:

@@ -8,7 +8,7 @@
  
 set -e
 
-su - ec2-user -c "mkdir /home/ec2-user/.ipython/ && mkdir /home/ec2-user/.ipython/profile_default/ && mkdir /home/ec2-user/.ipython/profile_default/startup/ && touch /home/ec2-user/.ipython/profile_default/startup/00-startup.py"
+su - ec2-user -c "mkdir -p /home/ec2-user/.ipython/profile_default/startup/ && touch /home/ec2-user/.ipython/profile_default/startup/00-startup.py"
 
 # Please replace proxy.local:3128 with the URL of your proxy server eg, proxy.example.com:80 or proxy.example.com:443
 # Please note that we are excluding S3 because we do not want this traffic to be routed over the public internet, but rather through the S3 endpoint in the VPC.

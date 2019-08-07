@@ -7,8 +7,8 @@ set -e
 # system environment reserved for Jupyter.
 
 # NOTE: if the total runtime of this script exceeds 5 minutes, the Notebook Instance will fail to start up.  If you would
-# like to run this script in the background, then add "nohup" before "sudo" below (e.g. "nohup sudo").  This will allow the
-# notebook instance to start up while the installation happens in the background.
+# like to run this script in the background, then replace "sudo" with "nohup sudo -b".  This will allow the
+# Notebook Instance to start up while the installation happens in the background.
 
 sudo -u ec2-user -i <<'EOF'
 

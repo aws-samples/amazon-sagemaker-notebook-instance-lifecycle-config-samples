@@ -5,6 +5,9 @@ set -e
 # OVERVIEW
 # This script gets value from Notebook Instance's tag and sets it as environment
 # variable for all process including Jupyter in SageMaker Notebook Instance
+# Note that this script will fail this condition is not met
+#   1. Ensure the Notebook Instance execution role has permission of SageMaker:ListTags
+#
 
 # PARAMETERS
 YOUR_ENV_VARIABLE_NAME=your_env_variable_name

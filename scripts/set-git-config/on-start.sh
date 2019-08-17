@@ -13,3 +13,5 @@ sudo -u ec2-user -i <<'EOF'
 
 git config --global user.name $YOUR_USER_NAME
 git config --global user.email $YOUR_EMAIL_ADDRESS
+
+EOF

@@ -10,6 +10,7 @@ Lifecycle Configurations provide a mechanism to customize Notebook Instances via
 
 * [auto-stop-idle](scripts/auto-stop-idle) - This script stops a SageMaker notebook once it's idle for more then 1 hour. (default time)
 * [connect-emr-cluster](scripts/connect-emr-cluster) - This script connects an EMR cluster to the Notebook Instance using SparkMagic.
+* [execute-notebook-on-startup](scripts/execute-notebook-on-startup) - This script executes a Notebook file on the instance during startup.
 * [install-conda-package-all-environments](scripts/install-conda-package-all-environments) - is script installs a single conda package in all SageMaker conda environments, apart from the JupyterSystemEnv which is a system environment reserved for Jupyter.
 * [install-conda-package-single-environment](scripts/install-conda-package-single-environment) - This script installs a single conda package in a single SageMaker conda environments.
 * [install-lab-extension](scripts/install-lab-extension) - This script installs a jupyterlab extension package in SageMaker Notebook Instance.

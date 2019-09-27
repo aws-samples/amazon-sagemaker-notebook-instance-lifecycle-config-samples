@@ -99,7 +99,12 @@ if len(data) > 0:
         else:
             idle = False
 else:
-    idle = False
+    client = boto3.client('sagemaker')
+    uptime = client.describe_notebook_instance(
+        NotebookInstanceName=get_notebook_name()
+    )['LastModifiedTime']
+    if not is_idle(uptime.strftime("%Y-%m-%dT%H:%M:%S.%fz")):
+        idle = False
 
 if idle:
     client = boto3.client('sagemaker')

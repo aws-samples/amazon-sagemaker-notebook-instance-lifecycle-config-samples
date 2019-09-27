@@ -10,7 +10,7 @@ set -e
 # Note that this script will fail if either condition is not met
 #   1. Ensure the Notebook Instance has internet connectivity to fetch the example config
 #   2. Ensure the Notebook Instance execution role permissions to SageMaker:StopNotebookInstance to stop the notebook 
-#       and SageMaker:StopNotebookInstance to describe the notebook.
+#       and SageMaker:DescribeNotebookInstance to describe the notebook.
 #
 
 # PARAMETERS

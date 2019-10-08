@@ -8,11 +8,11 @@ Lifecycle Configurations provide a mechanism to customize Notebook Instances via
 
 #### Sample Scripts
 
-* [auto-stop-idle](scripts/auto-stop-idle) - This script stops a SageMaker notebook once it's idle for more then 1 hour. (default time)
+* [auto-stop-idle](scripts/auto-stop-idle) - This script stops a SageMaker notebook once it's idle for more than 1 hour. (default time)
 * [connect-emr-cluster](scripts/connect-emr-cluster) - This script connects an EMR cluster to the Notebook Instance using SparkMagic.
 * [execute-notebook-on-startup](scripts/execute-notebook-on-startup) - This script executes a Notebook file on the instance during startup.
-* [install-conda-package-all-environments](scripts/install-conda-package-all-environments) - is script installs a single conda package in all SageMaker conda environments, apart from the JupyterSystemEnv which is a system environment reserved for Jupyter.
-* [install-conda-package-single-environment](scripts/install-conda-package-single-environment) - This script installs a single conda package in a single SageMaker conda environments.
+* [install-conda-package-all-environments](scripts/install-conda-package-all-environments) - This script installs a single conda package in all SageMaker conda environments, apart from the JupyterSystemEnv which is a system environment reserved for Jupyter.
+* [install-conda-package-single-environment](scripts/install-conda-package-single-environment) - This script installs a single conda package in a single SageMaker conda environment.
 * [install-lab-extension](scripts/install-lab-extension) - This script installs a jupyterlab extension package in SageMaker Notebook Instance.
 * [install-nb-extension](scripts/install-nb-extension) - This script installs a single jupyter notebook extension package in SageMaker Notebook Instance.
 * [install-pip-package-all-environments](scripts/install-pip-package-all-environments) - This script installs a single pip package in all SageMaker conda environments, apart from the JupyterSystemEnv which is a system environment reserved for Jupyter.
@@ -21,7 +21,7 @@ Lifecycle Configurations provide a mechanism to customize Notebook Instances via
 * [mount-efs-file-system](scripts/mount-efs-file-system) - This script mounts an EFS file system to the Notebook Instance at the ~/SageMaker/efs directory based off the DNS name.
 * [persistent-conda-ebs](scripts/persistent-conda-ebs) - This script installs a custom, persistent installation of conda on the Notebook Instance's EBS volume, and ensures that these custom environments are available as kernels in Jupyter.
 * [proxy-for-jupyter](scripts/proxy-for-jupyter) - This script configures proxy settings for your Jupyter notebooks and the SageMaker Notebook Instance.
-* [publish-instance-metrics](scripts/publish-instance-metrics) - This script publishes the system-level metrics from the Notebook Instance to Cloudwatch.
+* [publish-instance-metrics](scripts/publish-instance-metrics) - This script publishes the system-level metrics from the Notebook Instance to CloudWatch.
 * [set-env-variable](scripts/set-env-variable) - This script gets a value from the Notebook Instance's tags and sets it as an environment variable for all processes including Jupyter.
 * [set-git-config](scripts/set-git-config) - This script sets the username and email address in Git config.
 

@@ -82,10 +82,13 @@ def get_notebook_name():
         _logs = json.load(logs)
     return _logs['ResourceName']
 
+# This is hitting Jupyter's sessions API: https://github.com/jupyter/jupyter/wiki/Jupyter-Notebook-Server-API#Sessions-API
 response = requests.get('https://localhost:'+port+'/api/sessions', verify=False)
 data = response.json()
 if len(data) > 0:
     for notebook in data:
+        # Idleness is defined by Jupyter
+        # https://github.com/jupyter/notebook/issues/4634
         if notebook['kernel']['execution_state'] == 'idle':
             if not ignore_connections:
                 if notebook['kernel']['connections'] == 0:

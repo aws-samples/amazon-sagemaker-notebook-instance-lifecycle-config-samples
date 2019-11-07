@@ -5,8 +5,10 @@ set -e
 # OVERVIEW
 # This script installs a single conda package in all SageMaker conda environments, apart from the JupyterSystemEnv which is a 
 # system environment reserved for Jupyter.
-# Note this may timeout if the package installations in all environments take longer than 5 mins, consider using "nohup" to run this 
-# as a background process in that case.
+
+# NOTE: if the total runtime of this script exceeds 5 minutes, the Notebook Instance will fail to start up.  If you would
+# like to run this script in the background, then replace "sudo" with "nohup sudo -b".  This will allow the
+# Notebook Instance to start up while the installation happens in the background.
 
 sudo -u ec2-user -i <<'EOF'
 

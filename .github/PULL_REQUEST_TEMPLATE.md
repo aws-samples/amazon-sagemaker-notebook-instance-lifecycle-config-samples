@@ -9,6 +9,7 @@
 - [ ] Documentation in the script around any network access requirements
 - [ ] Documentation in the script around any IAM permission requirements
 - [ ] CLI commands used to validate functionality on the instance
+- [ ] New script link and description added to README.md
 
 ```
 # Provide your commands here

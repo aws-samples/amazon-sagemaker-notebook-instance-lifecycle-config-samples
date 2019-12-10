@@ -13,7 +13,7 @@ set -e
 YOUR_ENV_VARIABLE_NAME=your_env_variable_name
 
 NOTEBOOK_ARN=$(jq '.ResourceArn' /opt/ml/metadata/resource-metadata.json --raw-output)
-TAG=$(aws sagemaker list-tags --resource-arn $NOTEBOOK_ARN  | jq .'Tags[] | select(.Key == "$YOUR_ENV_VARIABLE_NAME").Value' --raw-output)
+TAG=$(aws sagemaker list-tags --resource-arn $NOTEBOOK_ARN  | jq -r --arg YOUR_ENV_VARIABLE_NAME "$YOUR_ENV_VARIABLE_NAME" .'Tags[] | select(.Key == $YOUR_ENV_VARIABLE_NAME).Value' --raw-output)
 touch /etc/profile.d/jupyter-env.sh
 echo "export $YOUR_ENV_VARIABLE_NAME=$TAG" >> /etc/profile.d/jupyter-env.sh
 initctl restart jupyter-server --no-wait

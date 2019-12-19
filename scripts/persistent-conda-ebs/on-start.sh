@@ -10,7 +10,7 @@ set -e
 #
 # For another example, see https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-add-external.html#nbi-isolated-environment
 
-sudo -u ec2-user -i <<'EOF'
+sudo -u ec2-user -i <<EOF
 unset SUDO_UID
 
 WORKING_DIR=/home/ec2-user/SageMaker/custom-miniconda/

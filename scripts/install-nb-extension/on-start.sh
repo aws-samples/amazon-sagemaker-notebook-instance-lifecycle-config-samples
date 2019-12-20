@@ -6,7 +6,7 @@ set -e
 # This script installs a single jupyter notebook extension package in SageMaker Notebook Instance
 # For more details of the example extension, see https://github.com/jupyter-widgets/ipywidgets
 
-sudo -u ec2-user -i <<'EOF'
+sudo -u ec2-user -i <<EOF
 
 # PARAMETERS
 PIP_PACKAGE_NAME=ipywidgets

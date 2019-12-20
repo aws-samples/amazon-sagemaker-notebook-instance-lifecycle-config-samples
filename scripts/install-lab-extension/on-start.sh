@@ -5,7 +5,7 @@ set -e
 # OVERVIEW
 # This script installs a jupyterlab extension package in SageMaker Notebook Instance
 
-sudo -u ec2-user -i <<'EOF'
+sudo -u ec2-user -i <<EOF
 
 # PARAMETERS
 EXTENSION_NAME=@jupyterlab/git

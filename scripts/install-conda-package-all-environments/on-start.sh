@@ -10,7 +10,7 @@ set -e
 # like to run this script in the background, then replace "sudo" with "nohup sudo -b".  This will allow the
 # Notebook Instance to start up while the installation happens in the background.
 
-sudo -u ec2-user -i <<'EOF'
+sudo -u ec2-user -i <<EOF
 
 # PARAMETERS
 PACKAGE=scipy

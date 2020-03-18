@@ -4,7 +4,7 @@ set -e
 
 # OVERVIEW
 # This script mounts a FSx for Lustre file system to the Notebook Instance at the /fsx directory based off
-# the DNS and mount name parameters.
+# the DNS and Mount name parameters.
 #
 # This script assumes the following:
 #   1. There's an FSx for Lustre file system created and running

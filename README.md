@@ -8,6 +8,7 @@ Lifecycle Configurations provide a mechanism to customize Notebook Instances via
 
 #### Sample Scripts
 
+* [add-pypi-repository](scripts/add-pypi-repository) - This script adds a private PyPi repository in addition to or instead of pypi.org.
 * [auto-stop-idle](scripts/auto-stop-idle) - This script stops a SageMaker notebook once it's idle for more than 1 hour. (default time)
 * [connect-emr-cluster](scripts/connect-emr-cluster) - This script connects an EMR cluster to the Notebook Instance using SparkMagic.
 * [disable-uninstall-ssm-agent](scripts/disable-uninstall-ssm-agent) - This script disables and uninstalls the SSM Agent at startup.

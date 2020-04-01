@@ -3,8 +3,8 @@
 set -e
 
 # OVERVIEW
-# This script fixes a problem in SageMaker Notebook instances where Jupyter fails to export a notebook
-# directly to PDF. nbconvert depends on XeLaTeX and several LaTeX packages that are non-trivial to
+# This script enables Jupyter to export a notebook directly to PDF.
+# nbconvert depends on XeLaTeX and several LaTeX packages that are non-trivial to
 # install because `tlmgr` is not included with the texlive packages provided by yum.
 
 sudo -u ec2-user -i <<EOF

@@ -7,6 +7,9 @@ set -e
 # nbconvert depends on XeLaTeX and several LaTeX packages that are non-trivial to
 # install because `tlmgr` is not included with the texlive packages provided by yum.
 
+# REQUIREMENTS
+# Internet access is required in order to fetch the below latex libraries from the ctan mirror.
+
 sudo -u ec2-user -i <<EOF
 unset SUDO_UID
 

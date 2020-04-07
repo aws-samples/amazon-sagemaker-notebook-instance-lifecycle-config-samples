@@ -5,7 +5,7 @@ set -e
 # OVERVIEW
 # This script installs a single jupyter notebook server extension package in SageMaker Notebook Instance
 
-sudo -u ec2-user -i <<EOF
+sudo -u ec2-user -i <<'EOF'
 
 # PARAMETERS
 PIP_PACKAGE_NAME=jupyterlab-git

@@ -14,13 +14,13 @@ nvm use 10
 npm install -g yarn
 ### now compile Theia-IDE from source, retrieving the configuration package.json from GitHub
 export NODE_OPTIONS=--max_old_space_size=4096
-curl https://gist.githubusercontent.com/jpbarto/94fde57ee264c82dddec905f01818bb1/raw/3994ba14d994d1f887bc327920eeee2802f5891b/package.json -o ${EC2_HOME}/theia/package.json
+curl https://raw.githubusercontent.com/jpbarto/amazon-sagemaker-notebook-instance-lifecycle-config-samples/master/scripts/install-theia-ide/package.json -o ${EC2_HOME}/theia/package.json
 yarn &
 ### Configure Theia defaults
 THEIA_PATH=$PATH
 mkdir ${EC2_HOME}/.theia
 mkdir -p ${EC2_HOME}/SageMaker/.theia
-curl https://gist.githubusercontent.com/jpbarto/94fde57ee264c82dddec905f01818bb1/raw/87e015f83070dc274fa6c890c118428ccade50f6/launch.json -o ${EC2_HOME}/SageMaker/.theia/launch.json
+curl https://raw.githubusercontent.com/jpbarto/amazon-sagemaker-notebook-instance-lifecycle-config-samples/master/scripts/install-theia-ide/launch.json -o ${EC2_HOME}/SageMaker/.theia/launch.json
 echo '{"workbench.iconTheme": "theia-file-icons","terminal.integrated.inheritEnv": true}' > ${EC2_HOME}/.theia/settings.json
 ## CONFIGURE JUPYTER PROXY TO MAP TO THE THEIA IDE
 JUPYTER_ENV=/home/ec2-user/anaconda3/envs/JupyterSystemEnv

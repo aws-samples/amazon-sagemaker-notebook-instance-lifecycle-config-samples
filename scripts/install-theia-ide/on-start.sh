@@ -65,6 +65,7 @@ echo '{"workbench.iconTheme": "theia-file-icons","terminal.integrated.inheritEnv
 #####################################
 ## CONFIGURE JUPYTER PROXY TO MAP TO THE THEIA IDE
 JUPYTER_ENV=/home/ec2-user/anaconda3/envs/JupyterSystemEnv
+
 source /home/ec2-user/anaconda3/bin/activate JupyterSystemEnv
 cat >>${JUPYTER_ENV}/etc/jupyter/jupyter_notebook_config.py <<EOC
 c.ServerProxy.servers = {
@@ -79,6 +80,7 @@ EOC
 
 pip install jupyter-server-proxy pylint autopep8
 jupyter serverextension enable --py --sys-prefix jupyter_server_proxy
+jupyter labextension install @jupyterlab/server-proxy
 source /home/ec2-user/anaconda3/bin/deactivate
 EOP
 

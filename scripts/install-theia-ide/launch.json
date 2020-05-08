@@ -7,6 +7,19 @@
             "request": "launch",
             "program": "${file}",
             "console": "internalConsole"
+        },
+        {
+            "name": "Python: Remote Attach",
+            "type": "python",
+            "request": "attach",
+            "port": 8888,
+            "host": "localhost",
+            "pathMappings": [
+                {
+                "localRoot": "${workspaceFolder}",
+                "remoteRoot": "/opt/ml/code"
+                }
+            ]
         }
     ],
     "configurationAttributes": {

@@ -78,7 +78,7 @@ c.ServerProxy.servers = {
 }
 EOC
 
-pip install jupyter-server-proxy pylint autopep8
+pip install jupyter-server-proxy pylint autopep8 'python-language-server[all]'
 jupyter serverextension enable --py --sys-prefix jupyter_server_proxy
 jupyter labextension install @jupyterlab/server-proxy
 source /home/ec2-user/anaconda3/bin/deactivate

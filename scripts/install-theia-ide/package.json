@@ -11,41 +11,37 @@
         }
     },
     "dependencies": {
-        "@theia/callhierarchy": "1.1.0",
-        "@theia/debug": "1.1.0",
-        "@theia/editor-preview": "1.1.0",
-        "@theia/file-search": "1.1.0",
-        "@theia/getting-started": "1.1.0",
-        "@theia/git": "1.1.0",
-        "@theia/json": "1.1.0",
-        "@theia/markers": "1.1.0",
-        "@theia/messages": "1.1.0",
-        "@theia/mini-browser": "1.1.0",
-        "@theia/monaco": "1.1.0",
-        "@theia/navigator": "1.1.0",
-        "@theia/outline-view": "1.1.0",
-        "@theia/plugin-ext-vscode": "1.1.0",
-        "@theia/preferences": "1.1.0",
-        "@theia/preview": "1.1.0",
-        "@theia/search-in-workspace": "1.1.0",
-        "@theia/terminal": "1.1.0",
-        "@theia/vsx-registry": "1.1.0",
-        "@theia/debug": "1.1.0"
+        "@theia/editor-preview": "1.2.0",
+        "@theia/file-search": "1.2.0",
+        "@theia/getting-started": "1.2.0",
+        "@theia/git": "1.2.0",
+        "@theia/json": "1.2.0",
+        "@theia/markers": "1.2.0",
+        "@theia/messages": "1.2.0",
+        "@theia/monaco": "1.2.0",
+        "@theia/navigator": "1.2.0",
+        "@theia/outline-view": "1.2.0",
+        "@theia/plugin-ext-vscode": "1.2.0",
+        "@theia/preferences": "1.2.0",
+        "@theia/preview": "1.2.0",
+        "@theia/search-in-workspace": "1.2.0",
+        "@theia/terminal": "1.2.0",
+        "@theia/vsx-registry": "1.2.0"
     },
     "resolutions": {
         "vscode-json-languageserver": "1.2.2",
-        "vscode-languageserver-protocol": "3.15.0-next.9",
-        "vscode-languageserver-types": "3.15.0-next.5",
-        "**/vscode-json-languageserver/**/vscode-languageserver": "6.0.0-next.1",
+        "vscode-languageserver-protocol": "3.15.3",
+        "vscode-languageserver-types": "3.15.1",
+        "**/vscode-json-languageserver/**/vscode-languageserver": "6.0.0",
         "**/**/moment": "2.24.0"
     },
     "devDependencies": {
-        "@theia/cli": "latest"
+        "@theia/cli": "1.2.0"
     },
     "scripts": {
         "prepare": "yarn run clean && yarn build && yarn run download:plugins",
         "clean": "theia clean",
-        "build": "theia build",
+        "build": "theia build --mode development",
         "start": "theia start --plugins=local-dir:plugins",
         "download:plugins": "theia download:plugins",
         "postinstall": "download-debug-adapters"

@@ -71,8 +71,10 @@ if missingConfiguration:
 def is_idle(last_activity):
     last_activity = datetime.strptime(last_activity,"%Y-%m-%dT%H:%M:%S.%fz")
     if (datetime.now() - last_activity).total_seconds() > time:
+        print('Notebook is idle. Last activity time = ', last_activity)
         return True
     else:
+        print('Notebook is not idle. Last activity time = ', last_activity)
         return False
 
 
@@ -100,6 +102,7 @@ if len(data) > 0:
                 if not is_idle(notebook['kernel']['last_activity']):
                     idle = False
         else:
+            print('Notebook is not idle:', notebook['kernel']['execution_state'])
             idle = False
 else:
     client = boto3.client('sagemaker')
@@ -110,8 +113,10 @@ else:
         idle = False
 
 if idle:
+    print('Closing idle notebook')
     client = boto3.client('sagemaker')
     client.stop_notebook_instance(
         NotebookInstanceName=get_notebook_name()
     )
-
+else:
+    print('Notebook not idle. Pass.')

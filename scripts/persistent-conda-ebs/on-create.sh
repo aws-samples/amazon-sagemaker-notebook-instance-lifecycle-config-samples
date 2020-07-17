@@ -37,4 +37,7 @@ pip install --quiet ipykernel
 conda install --yes numpy
 pip install --quiet boto3
 
+# Make the custom kernel available in dropdown
+python -m ipykernel install --user --name=$KERNEL_NAME
+
 EOF

@@ -8,11 +8,9 @@ set -e
 # 
 # The on-create script downloads and installs a custom conda installation to the EBS volume via Miniconda. Any relevant
 # packages can be installed here.
-#   1. ipykernel is installed to   
+#   1. ipykernel is installed to ensure that the custom environment can be used as a Jupyter kernel   
 #   2. Ensure the Notebook Instance has internet connectivity to download the Miniconda installer
-#
-# For another example, see:
-# https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-add-external.html#nbi-isolated-environment
+
 
 sudo -u ec2-user -i <<'EOF'
 unset SUDO_UID

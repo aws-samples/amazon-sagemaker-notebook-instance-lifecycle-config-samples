@@ -3,7 +3,7 @@
 set -e
 
 # OVERVIEW
-# This script installs a jupyter-server-proxy in SageMaker Notebook Instance
+# This script enable Streamlit webapp to run on SageMaker notebook instance.
 #
 # By default Streamlit is installed in `python3` virtual environment. Start Streamlit server by running the following command in notebook terminal:
 # - source activate python3

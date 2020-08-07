@@ -18,7 +18,7 @@ for env in base /home/ec2-user/anaconda3/envs/*; do
         continue
     fi
 
-    pip install --upgrade sagemaker>2
+    pip install --upgrade 'sagemaker>2'
 
     source /home/ec2-user/anaconda3/bin/deactivate
 done

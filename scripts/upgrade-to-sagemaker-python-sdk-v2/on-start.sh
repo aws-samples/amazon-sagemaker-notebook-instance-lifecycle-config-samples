@@ -14,7 +14,7 @@ for env in base /home/ec2-user/anaconda3/envs/*; do
 
     py_version=$(python -c 'import sys; print(sys.version_info[0])')
 
-    if [ $env == 'JupyterSystemEnv' ] || [ py_version == '2' ]; then
+    if [ $env == 'JupyterSystemEnv' ] || [ $py_version == 2 ]; then
         continue
     fi
 

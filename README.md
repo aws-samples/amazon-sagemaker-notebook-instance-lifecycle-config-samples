@@ -28,6 +28,7 @@ Lifecycle Configurations provide a mechanism to customize Notebook Instances via
 * [publish-instance-metrics](scripts/publish-instance-metrics) - This script publishes the system-level metrics from the Notebook Instance to CloudWatch.
 * [set-env-variable](scripts/set-env-variable) - This script gets a value from the Notebook Instance's tags and sets it as an environment variable for all processes including Jupyter.
 * [set-git-config](scripts/set-git-config) - This script sets the username and email address in Git config.
+* [upgrade-to-sagemaker-python-sdk-v2](scripts/upgrade-to-sagemaker-python-sdk-v2) - This script upgrades the SageMaker Python SDK to v2 in all Python 3 environments.
 
 ### Development
 

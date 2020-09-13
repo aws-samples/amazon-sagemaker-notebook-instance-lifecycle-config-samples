@@ -20,6 +20,7 @@ Lifecycle Configurations provide a mechanism to customize Notebook Instances via
 * [install-nb-extension](scripts/install-nb-extension) - This script installs a single jupyter notebook extension package in SageMaker Notebook Instance.
 * [install-pip-package-all-environments](scripts/install-pip-package-all-environments) - This script installs a single pip package in all SageMaker conda environments, apart from the JupyterSystemEnv which is a system environment reserved for Jupyter.
 * [install-pip-package-single-environment](scripts/install-pip-package-single-environment) - This script installs a single pip package in a single SageMaker conda environments.
+* [install-pip-packages-py3-environments](scripts/install-pip-packages-py3-environments) - This script installs one or more pip packages in all SageMaker conda environments running Python 3, excluding the JupyterSystemEnv (which is a system environment reserved for Jupyter) and any Python 2 environments.
 * [install-server-extension](scripts/install-server-extension) - This script installs a single jupyter notebook server extension package in SageMaker Notebook Instance.
 * [mount-efs-file-system](scripts/mount-efs-file-system) - This script mounts an EFS file system to the Notebook Instance at the ~/SageMaker/efs directory based off the DNS name.
 * [mount-fsx-lustre-file-system](scripts/mount-fsx-lustre-file-system) - This script mounts an FSx for Lustre file system to the Notebook Instance at the /fsx directory based off the DNS and Mount name parameters.

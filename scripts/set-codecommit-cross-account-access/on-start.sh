@@ -23,6 +23,6 @@ cat >>/home/ec2-user/.aws/config <<-END_CAT
 	output = json
 END_CAT
 
-git config --global credential.helper '!aws --profile CodeCommitProfile codecommit credential-helper $@'
+git config --global credential.helper '!aws --profile CrossAccountAccessProfile codecommit credential-helper $@'
 
 EOF

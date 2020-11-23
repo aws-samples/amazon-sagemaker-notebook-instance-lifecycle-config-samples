@@ -16,7 +16,7 @@ REGION=us-east-1
 sudo -u ec2-user -i <<EOF
 
 cat >>/home/ec2-user/.aws/config <<-END_CAT
-	[profile CodeCommitProfile]
+	[profile CrossAccountAccessProfile]
 	region = $REGION
 	role_arn = $ROLE_ARN
 	credential_source = Ec2InstanceMetadata

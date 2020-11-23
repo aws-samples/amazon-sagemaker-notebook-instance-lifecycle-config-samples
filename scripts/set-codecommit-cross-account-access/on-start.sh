@@ -10,7 +10,7 @@ set -e
 # https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-https-unixes.html#setting-up-https-unixes-credential-helper
 
 # PARAMETERS
-ROLE_ARN=arn:aws:iam::YourAccount:role/YourCrossAccountRepoAccess-Role
+ROLE_ARN=arn:aws:iam::CodeCommitAccount:role/CrossAccountRepositoryContributorRole
 REGION=us-east-1
 
 sudo -u ec2-user -i <<EOF

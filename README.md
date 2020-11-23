@@ -27,6 +27,7 @@ Lifecycle Configurations provide a mechanism to customize Notebook Instances via
 * [persistent-conda-ebs](scripts/persistent-conda-ebs) - This script installs a custom, persistent installation of conda on the Notebook Instance's EBS volume, and ensures that these custom environments are available as kernels in Jupyter.
 * [proxy-for-jupyter](scripts/proxy-for-jupyter) - This script configures proxy settings for your Jupyter notebooks and the SageMaker Notebook Instance.
 * [publish-instance-metrics](scripts/publish-instance-metrics) - This script publishes the system-level metrics from the Notebook Instance to CloudWatch.
+* [set-codecommit-cross-account-access](scripts/set-codecommit-cross-account-access) - This script sets cross-account CodeCommit access, so you can work on repositories hosted in another account.
 * [set-env-variable](scripts/set-env-variable) - This script gets a value from the Notebook Instance's tags and sets it as an environment variable for all processes including Jupyter.
 * [set-git-config](scripts/set-git-config) - This script sets the username and email address in Git config.
 

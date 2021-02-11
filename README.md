@@ -22,6 +22,7 @@ Lifecycle Configurations provide a mechanism to customize Notebook Instances via
 * [install-pip-package-single-environment](scripts/install-pip-package-single-environment) - This script installs a single pip package in a single SageMaker conda environments.
 * [install-r-package](scripts/install-r-package) - This script installs a single R package in SageMaker R environment.
 * [install-server-extension](scripts/install-server-extension) - This script installs a single jupyter notebook server extension package in SageMaker Notebook Instance.
+* [install-theia-ide](scripts/install-theia-ide) - This script installs the Eclipse Theia IDE on your notebook to provide a web-based IDE for working with and debugging your code.
 * [mount-efs-file-system](scripts/mount-efs-file-system) - This script mounts an EFS file system to the Notebook Instance at the ~/SageMaker/efs directory based off the DNS name.
 * [mount-fsx-lustre-file-system](scripts/mount-fsx-lustre-file-system) - This script mounts an FSx for Lustre file system to the Notebook Instance at the /fsx directory based off the DNS and Mount name parameters.
 * [notebook-history-s3](scripts/notebook-history-s3) - This script persists the underlying sqlite database of commands and cells executed for S3.

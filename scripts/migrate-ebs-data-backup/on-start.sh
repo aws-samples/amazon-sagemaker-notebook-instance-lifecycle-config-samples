@@ -1,5 +1,17 @@
 #!/bin/bash
 set -e
+
+# OVERVIEW
+# This script creates a snapshot of EBS volume /home/ec2-user/SageMaker/ to a S3 bucket specified by tag on the notebook instance (ebs-backup-bucket). 
+#
+# The snapshot can be download into a new instance using https://github.com/aws-samples/amazon-sagemaker-notebook-instance-lifecycle-config-samples/tree/master/scripts/migrate-ebs-data-sync/on-create.sh.
+# 
+# Note that the execution is done with nohup to bypass the startup timeout set by SageMaker Notebook instance. Depending on the size of the source /home/ec2-user/SageMaker/, it may take more than 5 minutes. You would see a text file BACKUP_COMPLETE created in /home/ec2-user/SageMaker/ and in the S3 bucket to denote the completion.
+#
+# Note if your notebook instance is in VPC mode without a direct internet access, please create a S3 VPC Gateway endpoint (https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-s3.html) and a SageMaker API VPC interface endpoint (https://docs.aws.amazon.com/sagemaker/latest/dg/interface-vpc-endpoint.html).
+#
+# See detail instruction in https://aws.amazon.com/blogs/machine-learning/xxxxx
+
 cat << "EOF" > /home/ec2-user/backup.sh
 #!/bin/bash
 NOTEBOOK_ARN=$(jq '.ResourceArn' /opt/ml/metadata/resource-metadata.json --raw-output)

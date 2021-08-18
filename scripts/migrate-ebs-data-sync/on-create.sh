@@ -9,7 +9,7 @@ set -e
 # 
 # Note if your notebook instance is in VPC mode without a direct internet access, please create a S3 VPC Gateway endpoint (https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-s3.html) and a SageMaker API VPC interface endpoint (https://docs.aws.amazon.com/sagemaker/latest/dg/interface-vpc-endpoint.html).
 #
-# See detail instruction in https://aws.amazon.com/blogs/machine-learning/migrate-your-work-to-amazon-sagemaker-notebook-instance-with-amazon-linux-2/
+# See detail instruction in https://aws.amazon.com/blogs/machine-learning/xxxxx
 
 cat << "EOF" > /home/ec2-user/sync.sh
 # When creating a new AL2 notebook instance, sync from a snapshot in S3 bucket to /home/ec2-user/SageMaker/

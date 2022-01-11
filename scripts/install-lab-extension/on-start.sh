@@ -14,6 +14,6 @@ source /home/ec2-user/anaconda3/bin/activate JupyterSystemEnv
 
 jupyter labextension install $EXTENSION_NAME
 
-source /home/ec2-user/anaconda3/bin/deactivate
+conda deactivate
 
 EOF

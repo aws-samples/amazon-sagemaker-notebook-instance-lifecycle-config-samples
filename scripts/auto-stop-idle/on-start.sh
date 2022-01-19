@@ -2,6 +2,22 @@
 
 set -e
 
+
+# OVERVIEW
+# This script installs a single pip package in a single SageMaker conda environments.
+export ENVIRONMENT=ds-homegate
+
+sudo -u ec2-user -i <<EOF
+
+# PARAMETERS
+echo Preparing $ENVIRONMENT
+conda create --yes -n $ENVIRONMENT --clone base
+conda activate ${ENVIRONMENT}
+
+pip install ipykernel watchtower urllib3[secure] requests
+
+EOF
+
 # OVERVIEW
 # This script stops a SageMaker notebook once it's idle for more than 1 hour (default time)
 # You can change the idle time for stop using the environment variable below.
@@ -14,11 +30,18 @@ set -e
 #
 
 # PARAMETERS
-IDLE_TIME=3600
+IDLE_TIME=240
+PATH_TO_SCRIPT=/home/ec2-user/autostop.py
+CONDA_ENV=/home/ec2-user/anaconda3/envs/${ENVIRONMENT}
+
+echo "Prepared environment ${CONDA_ENV}"
 
 echo "Fetching the autostop script"
-wget https://raw.githubusercontent.com/aws-samples/amazon-sagemaker-notebook-instance-lifecycle-config-samples/master/scripts/auto-stop-idle/autostop.py
+wget https://raw.githubusercontent.com/homegate-engineering/amazon-sagemaker-notebook-instance-lifecycle-config-samples/master/scripts/auto-stop-idle/autostop.py-O ${PATH_TO_SCRIPT}
 
 echo "Starting the SageMaker autostop script in cron"
 
-(crontab -l 2>/dev/null; echo "*/5 * * * * /usr/bin/python $PWD/autostop.py --time $IDLE_TIME --ignore-connections") | crontab -
+(crontab -l 2>/dev/null; echo "*/5 * * * * ${CONDA_ENV}/bin/python ${PATH_TO_SCRIPT} \
+  --time $IDLE_TIME --ignore-connections") | crontab -
+
+crontab -l

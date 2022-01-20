@@ -30,7 +30,7 @@ EOF
 #
 
 # PARAMETERS
-IDLE_TIME=240
+IDLE_TIME=3600
 PATH_TO_SCRIPT=/home/ec2-user/autostop.py
 CONDA_ENV=/home/ec2-user/anaconda3/envs/${ENVIRONMENT}
 

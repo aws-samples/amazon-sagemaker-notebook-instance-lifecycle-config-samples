@@ -21,10 +21,16 @@ import watchtower, logging
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+def get_notebook_name():
+    log_path = "/opt/ml/metadata/resource-metadata.json"
+    with open(log_path, "r") as logs:
+        _logs = json.load(logs)
+    return _logs["ResourceName"]
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 handler = watchtower.CloudWatchLogHandler(
-    log_group_name="/aws/sagemaker/NotebookInstances", log_stream_name="autostop"
+    log_group_name="/aws/sagemaker/NotebookInstances", log_stream_name=f"{get_notebook_name()}/autostop"
 )
 logger.addHandler(handler)
 
@@ -86,13 +92,6 @@ def is_idle(last_activity):
     else:
         logger.critical(f"Notebook is not idle. Last activity time = {last_activity}")
         return False
-
-
-def get_notebook_name():
-    log_path = "/opt/ml/metadata/resource-metadata.json"
-    with open(log_path, "r") as logs:
-        _logs = json.load(logs)
-    return _logs["ResourceName"]
 
 
 # This is hitting Jupyter's sessions API: https://github.com/jupyter/jupyter/wiki/Jupyter-Notebook-Server-API#Sessions-API

@@ -4,7 +4,7 @@ set -e
 
 
 # PARAMETERS
-EC2_HOME=${EC2_HOME}
+EC2_HOME=/home/ec2-user
 IDLE_TIME=3600
 PATH_TO_AUTOSTOP_SCRIPT=${EC2_HOME}/autostop.py
 CONDA_ENV_NAME=ds-homegate

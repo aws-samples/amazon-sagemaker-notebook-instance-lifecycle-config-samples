@@ -4,11 +4,13 @@ set -e
 
 
 # PARAMETERS
+EC2_HOME=${EC2_HOME}
 IDLE_TIME=3600
-PATH_TO_AUTOSTOP_SCRIPT=/home/ec2-user/autostop.py
+PATH_TO_AUTOSTOP_SCRIPT=${EC2_HOME}/autostop.py
 CONDA_ENV_NAME=ds-homegate
-CONDA_ENV_PATH=/home/ec2-user/anaconda3/envs/${CONDA_ENV_NAME}
-PRICE_ESTIMATOR_HOME=/home/ec2-user/SageMaker/price-estimator
+CONDA_ENV_PATH=${EC2_HOME}/anaconda3/envs/${CONDA_ENV_NAME}
+PRICE_ESTIMATOR_HOME=${EC2_HOME}/SageMaker/price-estimator
+PRE_COMMIT_HOME=${EC2_HOME}/SageMaker/.cache/pre-commit
 
 # OVERVIEW
 # This part of the script creates separate conda env and install minimum amount of dependencies
@@ -18,7 +20,7 @@ echo "Creating conda env: ${CONDA_ENV_NAME}"
 conda create --yes -n ${CONDA_ENV_NAME} pip ipykernel watchtower urllib3[secure] requests python=3.7.12 pre-commit nbdime
 conda activate ${CONDA_ENV_NAME}
 cd ${PRICE_ESTIMATOR_HOME}
-pre-commit install --install-hooks
+pre-commit install --install-hooks || cat ${PRE_COMMIT_HOME}/pre-commit.log
 
 EOF
 

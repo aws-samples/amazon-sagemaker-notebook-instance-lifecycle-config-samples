@@ -20,8 +20,7 @@ echo "Creating conda env: ${CONDA_ENV_NAME}"
 conda create --yes -n ${CONDA_ENV_NAME} pip ipykernel watchtower urllib3[secure] requests python=3.7.12 pre-commit nbdime
 conda activate ${CONDA_ENV_NAME}
 cd ${PRICE_ESTIMATOR_HOME}
-#pre-commit install --install-hooks || cat ${PRE_COMMIT_HOME}/pre-commit.log
-ls -alF .
+pre-commit install --install-hooks
 
 EOF
 

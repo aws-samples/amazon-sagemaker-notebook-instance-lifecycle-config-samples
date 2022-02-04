@@ -1,7 +1,6 @@
 #!/bin/bash
 
-set -e
-
+set -euxo pipefail
 
 # PARAMETERS
 EC2_HOME=/home/ec2-user
@@ -11,6 +10,8 @@ CONDA_ENV_NAME=ds-homegate
 CONDA_ENV_PATH=${EC2_HOME}/anaconda3/envs/${CONDA_ENV_NAME}
 PRICE_ESTIMATOR_HOME=${EC2_HOME}/SageMaker/price-estimator
 PRE_COMMIT_HOME=${EC2_HOME}/SageMaker/.cache/pre-commit
+GIT_USER=$GIT_USER
+GIT_EMAIL=$GIT_EMAIL
 
 # OVERVIEW
 # This part of the script creates separate conda env and install minimum amount of dependencies
@@ -21,6 +22,8 @@ conda create --yes -n ${CONDA_ENV_NAME} pip ipykernel watchtower urllib3[secure]
 conda activate ${CONDA_ENV_NAME}
 cd ${PRICE_ESTIMATOR_HOME}
 pre-commit install --install-hooks
+git config --global user.email "${GIT_EMAIL}"
+git config --global user.name "${GIT_USER}"
 
 EOF
 

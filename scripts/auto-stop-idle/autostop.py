@@ -91,7 +91,7 @@ if len(data) > 0:
     for notebook in data:
         # Idleness is defined by Jupyter
         # https://github.com/jupyter/notebook/issues/4634
-        if notebook['kernel']['execution_state'] == 'idle':
+        if notebook['kernel']['execution_state'] != 'busy':
             if not ignore_connections:
                 if notebook['kernel']['connections'] == 0:
                     if not is_idle(notebook['kernel']['last_activity']):

@@ -4,7 +4,7 @@ set -euxo pipefail
 
 # PARAMETERS
 EC2_HOME=/home/ec2-user
-IDLE_TIME=3600
+IDLE_TIME=7200
 PATH_TO_AUTOSTOP_SCRIPT=${EC2_HOME}/autostop.py
 CONDA_ENV_NAME=ds-homegate
 CONDA_ENV_PATH=${EC2_HOME}/anaconda3/envs/${CONDA_ENV_NAME}

@@ -29,8 +29,12 @@ done
 # rm /home/ec2-user/.condarc
 EOF
 
+# For Amazon Linux 1 ("notebook-al1-v1" platform identifier):
 echo "Restarting the Jupyter server.."
 restart jupyter-server
 
-# For "notebook-al2-v1" platform identifier use command below to restart server:
-#sudo systemctl restart jupyter-server
+# For Amazon Linux 2 ("notebook-al2-v1" platform identifier):
+# echo "Restarting the Jupyter server.."
+# systemctl restart jupyter-server
+# echo "Status of Jupyter server.."
+# systemctl status jupyter-server

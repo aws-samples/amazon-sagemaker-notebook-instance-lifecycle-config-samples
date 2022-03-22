@@ -30,4 +30,4 @@ done
 EOF
 
 echo "Restarting the Jupyter server.."
-restart jupyter-server
+sudo systemctl restart jupyter-server

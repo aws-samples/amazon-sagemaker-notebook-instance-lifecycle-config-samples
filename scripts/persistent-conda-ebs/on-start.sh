@@ -30,4 +30,7 @@ done
 EOF
 
 echo "Restarting the Jupyter server.."
-sudo systemctl restart jupyter-server
+restart jupyter-server
+
+# For "notebook-al2-v1" platform identifier use command below to restart server:
+#sudo systemctl restart jupyter-server

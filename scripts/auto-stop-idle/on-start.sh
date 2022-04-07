@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -ex
 
 # OVERVIEW
 # This script stops a SageMaker notebook once it's idle for more than 1 hour (default time)

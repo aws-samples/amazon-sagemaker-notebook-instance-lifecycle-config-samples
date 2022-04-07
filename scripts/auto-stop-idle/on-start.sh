@@ -14,7 +14,7 @@ set -ex
 #
 
 # PARAMETERS
-IDLE_TIME=900
+IDLE_TIME=3600
 
 echo "Fetching the autostop script"
 wget https://raw.githubusercontent.com/aws-samples/amazon-sagemaker-notebook-instance-lifecycle-config-samples/master/scripts/auto-stop-idle/autostop.py

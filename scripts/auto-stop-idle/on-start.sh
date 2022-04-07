@@ -21,4 +21,4 @@ wget https://raw.githubusercontent.com/aws-samples/amazon-sagemaker-notebook-ins
 
 echo "Starting the SageMaker autostop script in cron"
 
-(crontab -l 2>/dev/null; echo "*/5 * * * * /usr/bin/python $PWD/autostop.py --time $IDLE_TIME --ignore-connections") | crontab -
+(crontab -l 2>/dev/null; echo "*/5 * * * * /usr/bin/python3 $PWD/autostop.py --time $IDLE_TIME --ignore-connections") | crontab -

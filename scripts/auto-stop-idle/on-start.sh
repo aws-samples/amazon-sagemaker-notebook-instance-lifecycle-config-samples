@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -ex
 
 # OVERVIEW
 # This script stops a SageMaker notebook once it's idle for more than 1 hour (default time)
@@ -19,6 +19,24 @@ IDLE_TIME=3600
 echo "Fetching the autostop script"
 wget https://raw.githubusercontent.com/aws-samples/amazon-sagemaker-notebook-instance-lifecycle-config-samples/master/scripts/auto-stop-idle/autostop.py
 
+
+echo "Detecting Python install with boto3 install"
+
+# Find which install has boto3 and use that to run the cron command. So will use default when available
+# Redirect stderr as it is unneeded
+if /usr/bin/python -c "import boto3" 2>/dev/null; then
+    PYTHON_DIR='/usr/bin/python'
+elif /usr/bin/python3 -c "import boto3" 2>/dev/null; then
+    PYTHON_DIR='/usr/bin/python3'
+else
+    # If no boto3 just quit because the script won't work
+    echo "No boto3 found in Python or Python3. Exiting..."
+    exit 1
+fi
+
+echo "Found boto3 at $PYTHON_DIR"
+
+
 echo "Starting the SageMaker autostop script in cron"
 
-(crontab -l 2>/dev/null; echo "*/5 * * * * /usr/bin/python $PWD/autostop.py --time $IDLE_TIME --ignore-connections") | crontab -
+(crontab -l 2>/dev/null; echo "*/5 * * * * $PYTHON_DIR $PWD/autostop.py --time $IDLE_TIME --ignore-connections >> /var/log/jupyter.log") | crontab -

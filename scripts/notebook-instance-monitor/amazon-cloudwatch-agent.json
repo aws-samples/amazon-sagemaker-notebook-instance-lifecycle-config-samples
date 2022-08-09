@@ -3,7 +3,7 @@
     "namespace": "SageMakerNotebookInstances",
     "metrics_collected": {
       "cpu": {
-        "measurement": [ "cpu_usage_idle" ],
+        "measurement": [ "cpu_usage_idle","cpu_usage_active" ],
         "metrics_collection_interval": 60,
         "append_dimensions": { "notebook_instance_name": "MyNotebookInstance" },
         "resources": [ "*" ],

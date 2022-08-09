@@ -6,7 +6,7 @@ set -ex
 # Change the conditions in the python script to monitpr and stop notebook instances with this lifecycle config script
 
 echo "Fetching the scripts"
-wget https://raw.githubusercontent.com/w601sxs/amazon-sagemaker-notebook-instance-lifecycle-config-samples/master/scripts/notebook-instance-monitor/autostop.py
+wget https://raw.githubusercontent.com/w601sxs/amazon-sagemaker-notebook-instance-lifecycle-config-samples/master/scripts/notebook-instance-monitor/notebookapi.py
 wget https://raw.githubusercontent.com/w601sxs/amazon-sagemaker-notebook-instance-lifecycle-config-samples/master/scripts/notebook-instance-monitor/amazon-cloudwatch-agent.json
 
 

@@ -9,6 +9,12 @@
         "resources": [ "*" ],
         "totalcpu": true
       },
+      "nvidia_gpu":{
+        "measurement": ["nvidia_smi_utilization_gpu","nvidia_smi_utilization_memory","nvidia_smi_memory_used","nvidia_smi_memory_total"],
+        "metrics_collection_interval": 60,
+        "append_dimensions":{ "notebook_instance_name": "MyNotebookInstance" },
+        "resources":["*"]
+      },
       "disk": {
         "measurement": [ "used_percent" ],
         "metrics_collection_interval": 60,

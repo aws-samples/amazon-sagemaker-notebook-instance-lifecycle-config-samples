@@ -17,7 +17,7 @@ echo "Detecting Python install with boto3 install"
 if /usr/bin/python3 -c "import boto3" 2>/dev/null; then
     # Standard installation in any notebook instance should find both python3 and pip-3
     PYTHON_DIR='/usr/bin/python3'
-    /usr/bin/pip-3 install gputil psutil --user
+    /usr/local/bin/pip3 install gputil psutil --user
 else
     # If no boto3 just quit because the script won't work
     echo "No boto3 found in Python or Python3. Exiting..."

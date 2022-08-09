@@ -5,8 +5,9 @@ set -ex
 # OVERVIEW
 # Change the conditions in the python script to monitpr and stop notebook instances with this lifecycle config script
 
-echo "Fetching the autostop script"
-wget https://raw.githubusercontent.com/aws-samples/amazon-sagemaker-notebook-instance-lifecycle-config-samples/master/scripts/auto-stop-idle/autostop.py
+echo "Fetching the scripts"
+wget https://raw.githubusercontent.com/w601sxs/amazon-sagemaker-notebook-instance-lifecycle-config-samples/master/scripts/notebook-instance-monitor/autostop.py
+wget https://raw.githubusercontent.com/w601sxs/amazon-sagemaker-notebook-instance-lifecycle-config-samples/master/scripts/notebook-instance-monitor/amazon-cloudwatch-agent.json
 
 
 echo "Detecting Python install with boto3 install"
@@ -36,8 +37,6 @@ echo "Also turning on cloudwatch metrics through the CW agent"
 NOTEBOOK_INSTANCE_NAME=$(jq '.ResourceName' \
                       /opt/ml/metadata/resource-metadata.json --raw-output)
 
-echo "Fetching the CloudWatch agent configuration file."
-wget https://raw.githubusercontent.com/aws-samples/amazon-sagemaker-notebook-instance-lifecycle-config-samples/master/scripts/publish-instance-metrics/amazon-cloudwatch-agent.json
 
 sed -i -- "s/MyNotebookInstance/$NOTEBOOK_INSTANCE_NAME/g" amazon-cloudwatch-agent.json
 

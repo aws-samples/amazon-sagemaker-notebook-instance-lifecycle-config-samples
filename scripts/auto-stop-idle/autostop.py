@@ -105,12 +105,7 @@ if len(data) > 0:
             print('Notebook is not idle:', notebook['kernel']['execution_state'])
             idle = False
 else:
-    client = boto3.client('sagemaker')
-    uptime = client.describe_notebook_instance(
-        NotebookInstanceName=get_notebook_name()
-    )['LastModifiedTime']
-    if not is_idle(uptime.strftime("%Y-%m-%dT%H:%M:%S.%fz")):
-        idle = False
+    idle = False # removing check on notebook metadata update time as this could lead to unwanted shutdowns
 
 if idle:
     print('Closing idle notebook')

@@ -5,7 +5,7 @@ import urllib3
 import boto3
 import json
 import os
-os.system('pip install GPUtil==1.4.0')
+# os.system('pip install GPUtil==1.4.0')
 import GPUtil
 import psutil
 import json
@@ -32,7 +32,7 @@ port = '8443'
 ignore_connections = False
 
 # Threshold for deciding idle value
-time = 4*60*60 # 4 hours in seconds
+time_threshold = 4*60*60 # 4 hours in seconds
 
 # Force shutdown if conditions are true, or just log to output
 force_shutdown = False
@@ -62,7 +62,7 @@ def get_notebook_resource_arn():
 
 def is_idle(last_activity):
     last_activity = datetime.strptime(last_activity,"%Y-%m-%dT%H:%M:%S.%fz")
-    if (datetime.now() - last_activity).total_seconds() > time:
+    if (datetime.now() - last_activity).total_seconds() > time_threshold:
         print('Notebook is idle. Last activity time = ', last_activity)
         return True
     else:
@@ -115,7 +115,7 @@ try:
     with Capturing() as output:
         GPUtil.showUtilization()
     
-#     print(output)
+
     if len(output)==1:
         print("Found no GPUs")
     else:
@@ -220,7 +220,7 @@ except Exception as e:
 # In cloudwatch log insights, use the a query similar to the following:
 '''
 fields @timestamp, avg_CPU_util
-| filter @logStream="ferrari-gan-testing-notebook/jupyter.log"
+| filter @logStream="notebook-name/jupyter.log"
 | stats avg(avg_CPU_util),avg(avg_Mem_util),avg(avg_GPU_util),avg(avg_GPUmem_util),count() by bin(60s)
 | sort @timestamp asc 
 '''

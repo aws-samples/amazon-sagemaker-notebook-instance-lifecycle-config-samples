@@ -3,7 +3,7 @@
 set -ex
 
 # OVERVIEW
-# Change the conditions in the python script to monitpr and stop notebook instances with this lifecycle config script
+# This script is adapted from https://github.com/aws-samples/amazon-sagemaker-notebook-instance-lifecycle-config-samples/blob/master/scripts/auto-stop-idle/autostop.py. Modifications are made to calculate four quantities (CPU utilization, CPU memory utilization, GPU utilization, GPU memory utilization) at regular intervals defined by the cron expression of the on-start script. These aggregate values are also added as tags to the notebook instance so users can get an idea of what the utilization looks like without accessing the actual jupyter notebook. Additionally, a cloudwatch agent logs more detailed metrics for users to monitor notebook instance usage. Fianlly, an example query (commented out) is provided to use within Cost Explorer to visualize aggregate metrics.
 
 echo "Fetching the scripts"
 wget https://raw.githubusercontent.com/w601sxs/amazon-sagemaker-notebook-instance-lifecycle-config-samples/master/scripts/notebook-instance-monitor/notebookapi.py
@@ -29,6 +29,7 @@ echo "Found boto3 at $PYTHON_DIR"
 
 echo "Starting the SageMaker autostop script in cron"
 
+# Change the following cron expression to update the frequency of running the notebookapi.py script
 (crontab -l 2>/dev/null; echo "*/30 * * * * $PYTHON_DIR $PWD/notebookapi.py >> /var/log/jupyter.log") | crontab -
 
 

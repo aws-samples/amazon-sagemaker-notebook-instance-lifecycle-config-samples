@@ -5,9 +5,15 @@ set -ex
 # OVERVIEW
 # This script is adapted from https://github.com/aws-samples/amazon-sagemaker-notebook-instance-lifecycle-config-samples/blob/master/scripts/auto-stop-idle/autostop.py. Modifications are made to calculate four quantities (CPU utilization, CPU memory utilization, GPU utilization, GPU memory utilization) at regular intervals defined by the cron expression of the on-start script. These aggregate values are also added as tags to the notebook instance so users can get an idea of what the utilization looks like without accessing the actual jupyter notebook. Additionally, a cloudwatch agent logs more detailed metrics for users to monitor notebook instance usage. Fianlly, an example query (commented out) is provided to use within Cost Explorer to visualize aggregate metrics.
 
+# Note that this script will fail if either condition is not met
+#   1. Ensure the Notebook Instance has internet connectivity to fetch the example config
+#   2. Ensure the Notebook Instance execution role permissions to SageMaker:StopNotebookInstance to stop the notebook 
+#       and SageMaker:DescribeNotebookInstance to describe the notebook, SageMaker:AddTags
+#   3. Ensure that the CloudWatch agent is correctly installed and permissions match those outlined in the docs https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/create-iam-roles-for-cloudwatch-agent.html
+
 echo "Fetching the scripts"
-wget https://raw.githubusercontent.com/w601sxs/amazon-sagemaker-notebook-instance-lifecycle-config-samples/master/scripts/notebook-instance-monitor/notebookapi.py
-wget https://raw.githubusercontent.com/w601sxs/amazon-sagemaker-notebook-instance-lifecycle-config-samples/master/scripts/notebook-instance-monitor/amazon-cloudwatch-agent.json
+wget https://raw.githubusercontent.com/aws-samples/amazon-sagemaker-notebook-instance-lifecycle-config-samples/blob/master/scripts/notebook-instance-monitor/notebookapi.py
+wget https://raw.githubusercontent.com/aws-samples/amazon-sagemaker-notebook-instance-lifecycle-config-samples/blob/master/scripts/notebook-instance-monitor/amazon-cloudwatch-agent.json
 
 
 echo "Detecting Python install with boto3 install"

@@ -7,7 +7,6 @@ import json
 import os
 import GPUtil
 import psutil
-import json
 
 from io import StringIO 
 

@@ -5,7 +5,6 @@ import urllib3
 import boto3
 import json
 import os
-# os.system('pip install GPUtil==1.4.0')
 import GPUtil
 import psutil
 import json

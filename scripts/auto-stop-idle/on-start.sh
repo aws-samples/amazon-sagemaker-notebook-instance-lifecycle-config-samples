@@ -38,7 +38,7 @@ EOF
 #       and SageMaker:DescribeNotebookInstance to describe the notebook.
 
 echo "Fetching the autostop script"
-wget https://raw.githubusercontent.com/homegate-engineering/amazon-sagemaker-notebook-instance-lifecycle-config-samples/master/scripts/auto-stop-idle/autostop.py -O ${PATH_TO_AUTOSTOP_SCRIPT}
+wget https://raw.githubusercontent.com/smg-real-estate/amazon-sagemaker-notebook-instance-lifecycle-config-samples/master/scripts/auto-stop-idle/autostop.py -O ${PATH_TO_AUTOSTOP_SCRIPT}
 
 echo "Starting the SageMaker autostop script in cron"
 (crontab -l 2>/dev/null; echo "*/5 * * * * ${CONDA_ENV_PATH}/bin/python ${PATH_TO_AUTOSTOP_SCRIPT} --time ${IDLE_TIME} --ignore-connections") | crontab -

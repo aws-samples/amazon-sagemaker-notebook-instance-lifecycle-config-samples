@@ -8,7 +8,7 @@ IDLE_TIME=7200
 PATH_TO_AUTOSTOP_SCRIPT=${EC2_HOME}/autostop.py
 CONDA_ENV_NAME=ds-homegate
 CONDA_ENV_PATH=${EC2_HOME}/anaconda3/envs/${CONDA_ENV_NAME}
-PRICE_ESTIMATOR_HOME=${EC2_HOME}/SageMaker/price-estimator
+SAGEMAKER_HOME=${EC2_HOME}/SageMaker/price-estimator
 PRE_COMMIT_HOME=${EC2_HOME}/SageMaker/.cache/pre-commit
 GIT_USER=$GIT_USER
 GIT_EMAIL=$GIT_EMAIL
@@ -20,11 +20,16 @@ sudo -u ec2-user -i <<EOF
 echo "Creating conda env: ${CONDA_ENV_NAME}"
 conda create --yes -n ${CONDA_ENV_NAME} pip ipykernel watchtower urllib3[secure] requests python=3.7.12 pre-commit nbdime
 conda activate ${CONDA_ENV_NAME}
-cd ${PRICE_ESTIMATOR_HOME}
-pre-commit install --install-hooks
-git config --global user.email "${GIT_EMAIL}"
-git config --global user.name "${GIT_USER}"
-
+cd {EC2_HOME}/SageMaker
+projects=$(ls -1 | fgrep -v lost)
+for project in $projects; do
+  pushd $project
+  if [ -e .pre-commit-config.yaml ]; then
+    pre-commit install --install-hooks  
+  fi
+  git config --global user.email "${GIT_EMAIL}"
+  git config --global user.name "${GIT_USER}"
+done
 EOF
 
 # OVERVIEW

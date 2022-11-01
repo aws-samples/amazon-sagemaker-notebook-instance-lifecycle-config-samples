@@ -96,14 +96,18 @@ if len(data) > 0:
                 if notebook['kernel']['connections'] == 0:
                     if not is_idle(notebook['kernel']['last_activity']):
                         idle = False
+                        print('Notebook idle state is now: ',idle)
                 else:
                     idle = False
+                    print('Notebook idle state is now: ', idle)
             else:
                 if not is_idle(notebook['kernel']['last_activity']):
                     idle = False
+                    print('Notebook idle state is now: ', idle)
         else:
             print('Notebook is not idle:', notebook['kernel']['execution_state'])
             idle = False
+            print('Notebook idle state is now: ', idle)
 else:
     client = boto3.client('sagemaker')
     uptime = client.describe_notebook_instance(
@@ -111,6 +115,7 @@ else:
     )['LastModifiedTime']
     if not is_idle(uptime.strftime("%Y-%m-%dT%H:%M:%S.%fz")):
         idle = False
+        print('Notebook idle state is now: ', idle)
 
 if idle:
     print('Closing idle notebook')

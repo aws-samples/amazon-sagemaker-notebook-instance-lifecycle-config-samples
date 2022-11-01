@@ -96,7 +96,7 @@ if len(data) > 0:
                 if notebook['kernel']['connections'] == 0:
                     if not is_idle(notebook['kernel']['last_activity']):
                         idle = False
-                        print('Notebook idle state is now: ',idle)
+                        print('Notebook idle state is now: ', idle)
                 else:
                     idle = False
                     print('Notebook idle state is now: ', idle)

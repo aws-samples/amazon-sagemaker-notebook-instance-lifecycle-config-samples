@@ -29,7 +29,7 @@ CURR_VERSION_JS=$(jupyter --version)
 if [[ $CURR_VERSION_JS == *$"jupyter_core     : 4.9.1"* ]] && [[ $CURR_VERSION_AL == *$" release 2018"* ]]; then
 	sudo yum install -y lustre-client
 else
-	sudo amazon-linux-extras install -y lustre || true
+	sudo amazon-linux-extras install -y lustre
 fi
 
 # Now we can create the mount point and mount the file system

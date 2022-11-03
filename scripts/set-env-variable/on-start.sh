@@ -26,7 +26,7 @@ CURR_VERSION_JS=$(jupyter --version)
 if [[ $CURR_VERSION_JS == *$"jupyter_core     : 4.9.1"* ]] && [[ $CURR_VERSION_AL == *$" release 2018"* ]]; then
 	sudo initctl restart jupyter-server --no-wait
 else
-	sudo systemctl --no-block restart jupyter-server.service || true
+	sudo systemctl --no-block restart jupyter-server.service
 fi
 
 #EOF

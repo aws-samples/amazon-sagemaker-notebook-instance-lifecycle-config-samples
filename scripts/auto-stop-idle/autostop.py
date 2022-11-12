@@ -98,11 +98,9 @@ if len(data) > 0:
                         idle = False
                 else:
                     idle = False
-                    print(f'Notebook idle state set as {idle} because no kernel has been detected.')
             else:
                 if not is_idle(notebook['kernel']['last_activity']):
                     idle = False
-                    print(f'Notebook idle state set as {idle} since kernel connections are ignored.')
         else:
             print('Notebook is not idle:', notebook['kernel']['execution_state'])
             idle = False
@@ -113,7 +111,6 @@ else:
     )['LastModifiedTime']
     if not is_idle(uptime.strftime("%Y-%m-%dT%H:%M:%S.%fz")):
         idle = False
-        print(f'Notebook idle state set as {idle} since no sessions detected.')
 
 if idle:
     print('Closing idle notebook')

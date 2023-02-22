@@ -28,7 +28,6 @@ if $(which python) -c "import boto3" 2>/dev/null; then
     PYTHON_DIR=$(which python)
 elif /usr/bin/python -c "import boto3" 2>/dev/null; then
     PYTHON_DIR='/usr/bin/python'
->>>>>>> Stashed changes
 else
     # If no boto3 just quit because the script won't work
     echo "No boto3 found in Python or Python3. Exiting..."

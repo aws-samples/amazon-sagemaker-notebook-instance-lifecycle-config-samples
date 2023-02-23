@@ -24,8 +24,8 @@ echo "Detecting Python install with boto3 install"
 
 # Find which install has boto3 and use that to run the cron command. So will use default when available
 # Redirect stderr as it is unneeded
-if $(which python) -c "import boto3" 2>/dev/null; then
-    PYTHON_DIR=$(which python)
+if /usr/bin/python3.8 -c "import boto3" 2>/dev/null; then
+    PYTHON_DIR=/usr/bin/python3.8
 elif /usr/bin/python -c "import boto3" 2>/dev/null; then
     PYTHON_DIR='/usr/bin/python'
 else

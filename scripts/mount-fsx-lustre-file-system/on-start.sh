@@ -23,10 +23,8 @@ FSX_MOUNT_NAME=your-mount-name
 
 # First, we need to install the lustre libraries
 # this command is dependent on current running Amazon Linux and JupyterLab versions
-CURR_VERSION_AL=$(cat /etc/system-release)
-CURR_VERSION_JS=$(jupyter --version)
-
-if [[ $CURR_VERSION_JS == *$"jupyter_core     : 4.9.1"* ]] && [[ $CURR_VERSION_AL == *$" release 2018"* ]]; then
+CURR_VERSION=$(cat /etc/os-release)
+if [[ $CURR_VERSION == *$"http://aws.amazon.com/amazon-linux-ami/"* ]]; then
 	sudo yum install -y lustre-client
 else
 	sudo amazon-linux-extras install -y lustre

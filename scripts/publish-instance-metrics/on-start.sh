@@ -24,7 +24,11 @@ echo "Starting the CloudWatch agent on the Notebook Instance."
 /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a \
     append-config -m ec2 -c file://$(pwd)/amazon-cloudwatch-agent.json
 
-restart restart-cloudwatch-agent || true 
-systemctl restart amazon-cloudwatch-agent.service || true
+CURR_VERSION=$(cat /etc/os-release)
+if [[ $CURR_VERSION == *$"http://aws.amazon.com/amazon-linux-ami/"* ]]; then
+    restart restart-cloudwatch-agent
+else
+    systemctl restart amazon-cloudwatch-agent.service
+fi
 
 rm amazon-cloudwatch-agent.json

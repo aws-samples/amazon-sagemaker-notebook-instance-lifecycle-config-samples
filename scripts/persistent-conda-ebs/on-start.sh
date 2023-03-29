@@ -15,7 +15,7 @@ set -e
 sudo -u ec2-user -i <<'EOF'
 unset SUDO_UID
 
-WORKING_DIR=/home/ec2-user/SageMaker/custom-miniconda/
+WORKING_DIR=/home/ec2-user/SageMaker/custom-miniconda
 source "$WORKING_DIR/miniconda/bin/activate"
 
 for env in $WORKING_DIR/miniconda/envs/*; do
@@ -31,10 +31,8 @@ EOF
 
 echo "Restarting the Jupyter server.."
 # restart command is dependent on current running Amazon Linux and JupyterLab
-CURR_VERSION_AL=$(cat /etc/system-release)
-CURR_VERSION_JS=$(jupyter --version)
-
-if [[ $CURR_VERSION_JS == *$"jupyter_core     : 4.9.1"* ]] && [[ $CURR_VERSION_AL == *$" release 2018"* ]]; then
+CURR_VERSION=$(cat /etc/os-release)
+if [[ $CURR_VERSION == *$"http://aws.amazon.com/amazon-linux-ami/"* ]]; then
 	sudo initctl restart jupyter-server --no-wait
 else
 	sudo systemctl --no-block restart jupyter-server.service

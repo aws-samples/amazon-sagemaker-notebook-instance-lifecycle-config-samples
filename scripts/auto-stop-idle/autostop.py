@@ -120,7 +120,7 @@ response = requests.get('https://localhost:'+port+'/api/terminals', verify=False
 data = response.json()
 if len(data) > 0:
     for terminal in data:
-        if not is_idle(terminal['last_activity'], 'Terminal'):
+        if not is_idle(terminal['last_activity'], 'Terminal ' + terminal['name']):
             idle = False
                         
 if idle:

@@ -33,6 +33,7 @@ Lifecycle Configurations provide a mechanism to customize Notebook Instances via
 * [set-codecommit-cross-account-access](scripts/set-codecommit-cross-account-access) - This script sets cross-account CodeCommit access, so you can work on repositories hosted in another account.
 * [set-env-variable](scripts/set-env-variable) - This script gets a value from the Notebook Instance's tags and sets it as an environment variable for all processes including Jupyter.
 * [set-git-config](scripts/set-git-config) - This script sets the username and email address in Git config.
+* [upgrade-to-sagemaker-python-sdk-v2](scripts/upgrade-to-sagemaker-python-sdk-v2) - This script upgrades the SageMaker Python SDK to v2 in all Python 3 environments.
 
 ### Development
 

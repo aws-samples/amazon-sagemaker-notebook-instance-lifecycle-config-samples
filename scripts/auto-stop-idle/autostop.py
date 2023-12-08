@@ -22,30 +22,33 @@ import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-# Usage
+# 使用方法
 usageInfo = """Usage:
-This scripts checks if a notebook is idle for X seconds if it does, it'll stop the notebook:
+This script checks if a notebook is idle for X seconds and if it does, it'll stop the notebook:
 python autostop.py --time <time_in_seconds> [--port <jupyter_port>] [--ignore-connections]
 Type "python autostop.py -h" for available options.
 """
-# Help info
+
+# ヘルプ情報
 helpInfo = """-t, --time
     Auto stop time in seconds
 -p, --port
-    jupyter port
+    Jupyter port
 -c --ignore-connections
     Stop notebook once idle, ignore connected users
 -h, --help
     Help information
 """
 
-# Read in command-line parameters
+# コマンドラインパラメータの読み込み
 idle = True
 port = "8443"
 ignore_connections = False
 try:
     opts, args = getopt.getopt(
-        sys.argv[1:], "ht:p:c", ["help", "time=", "port=", "ignore-connections"]
+        sys.argv[1:],
+        "ht:p:c",
+        ["help", "time=", "port=", "ignore-connections"],
     )
     if len(opts) == 0:
         raise getopt.GetoptError("No input parameters!")
@@ -63,7 +66,7 @@ except getopt.GetoptError:
     print(usageInfo)
     exit(1)
 
-# Missing configuration notification
+# 構成情報が不足している場合の通知
 missingConfiguration = False
 if not time:
     print("Missing '-t' or '--time'")
@@ -72,25 +75,35 @@ if missingConfiguration:
     exit(2)
 
 
-def is_idle(last_activity):
-    last_activity = datetime.strptime(last_activity, "%Y-%m-%dT%H:%M:%S.%fz")
-    if (datetime.now() - last_activity).total_seconds() > time:
-        print("Jupyter is idle. Last activity time = ", last_activity)
-        return True
-    else:
-        print("Jupyter is not idle. Last activity time = ", last_activity)
-        return False
-
-
-def is_terminal_active():
-    response = requests.get(
-        f"https://localhost:{port}/api/terminals",
-        verify=False,
+# 最後のアクティビティ時間を取得する関数
+def get_last_activity():
+    notebook_response = requests.get(
+        f"https://localhost:{port}/api/sessions", verify=False
     )
-    terminal_data = response.json()
-    return len(terminal_data) > 0
+    notebook_data = notebook_response.json()
+    terminal_response = requests.get(
+        f"https://localhost:{port}/api/terminals", verify=False
+    )
+    terminal_data = terminal_response.json()
+
+    last_activity = datetime.min
+
+    # Jupyter Notebookのセッションから最後のアクティビティ時間を取得
+    for notebook in notebook_data:
+        activity_time = datetime.strptime(
+            notebook["kernel"]["last_activity"], "%Y-%m-%dT%H:%M:%S.%fz"
+        )
+        if activity_time > last_activity:
+            last_activity = activity_time
+
+    # ターミナルセッションが存在する場合、現在時刻を最後のアクティビティ時間として扱う
+    if len(terminal_data) > 0:
+        last_activity = datetime.now()
+
+    return last_activity
 
 
+# ノートブックの名前を取得する関数
 def get_notebook_name():
     log_path = "/opt/ml/metadata/resource-metadata.json"
     with open(log_path, "r") as logs:
@@ -98,50 +111,19 @@ def get_notebook_name():
     return _logs["ResourceName"]
 
 
-# This is hitting Jupyter's sessions API: https://github.com/jupyter/jupyter/wiki/Jupyter-Notebook-Server-API#Sessions-API
-response = requests.get("https://localhost:" + port + "/api/sessions", verify=False)
-data = response.json()
-if len(data) > 0:
-    for notebook in data:
-        # Idleness is defined by Jupyter
-        # https://github.com/jupyter/notebook/issues/4634
-        if notebook["kernel"]["execution_state"] == "idle":
-            if not ignore_connections:
-                if notebook["kernel"]["connections"] == 0:
-                    if not is_idle(notebook["kernel"]["last_activity"]):
-                        idle = False
-                else:
-                    idle = False
-                    print(
-                        "Jupyter idle state set as %s because no kernel has been detected."
-                        % idle
-                    )
-            else:
-                if not is_idle(notebook["kernel"]["last_activity"]):
-                    idle = False
-                    print(
-                        "Jupyter idle state set as %s since kernel connections are ignored."
-                        % idle
-                    )
-        elif not is_terminal_active():
-            if not is_idle(notebook["kernel"]["last_activity"]):
-                idle = False
-                print(
-                    "Jupyter idle state set as %s since kernel connections are ignored."
-                    % idle
-                )
-        else:
-            print("Jupyter is not idle:", notebook["kernel"]["execution_state"])
-            idle = False
+# アイドル状態のチェック
+last_activity = get_last_activity()
+if (datetime.now() - last_activity).total_seconds() > time:
+    print(
+        "Jupyter has been idle for more than specified time. Last activity time = ",
+        last_activity,
+    )
+    idle = True
 else:
-    client = boto3.client("sagemaker")
-    uptime = client.describe_notebook_instance(
-        NotebookInstanceName=get_notebook_name()
-    )["LastModifiedTime"]
-    if not is_idle(uptime.strftime("%Y-%m-%dT%H:%M:%S.%fz")):
-        idle = False
-        print("Jupyter idle state set as %s since no sessions detected." % idle)
+    print("Jupyter is not idle. Last activity time = ", last_activity)
+    idle = False
 
+# インスタンスの停止処理
 if idle:
     print("Closing idle notebook")
     client = boto3.client("sagemaker")

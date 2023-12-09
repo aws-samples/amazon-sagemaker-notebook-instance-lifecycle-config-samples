@@ -22,14 +22,12 @@ import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-# 使用方法
+# 使用方法とヘルプ情報
 usageInfo = """Usage:
-This script checks if a notebook is idle for X seconds and if it does, it'll stop the notebook:
+This script checks if a notebook and terminal are idle for X seconds and if so, it'll stop the notebook:
 python autostop.py --time <time_in_seconds> [--port <jupyter_port>] [--ignore-connections]
 Type "python autostop.py -h" for available options.
 """
-
-# ヘルプ情報
 helpInfo = """-t, --time
     Auto stop time in seconds
 -p, --port
@@ -46,9 +44,7 @@ port = "8443"
 ignore_connections = False
 try:
     opts, args = getopt.getopt(
-        sys.argv[1:],
-        "ht:p:c",
-        ["help", "time=", "port=", "ignore-connections"],
+        sys.argv[1:], "ht:p:c", ["help", "time=", "port=", "ignore-connections"]
     )
     if len(opts) == 0:
         raise getopt.GetoptError("No input parameters!")
@@ -66,44 +62,29 @@ except getopt.GetoptError:
     print(usageInfo)
     exit(1)
 
-# 構成情報が不足している場合の通知
-missingConfiguration = False
 if not time:
     print("Missing '-t' or '--time'")
-    missingConfiguration = True
-if missingConfiguration:
     exit(2)
 
 
-# 最後のアクティビティ時間を取得する関数
-def get_last_activity():
-    notebook_response = requests.get(
-        f"https://localhost:{port}/api/sessions", verify=False
-    )
-    notebook_data = notebook_response.json()
-    terminal_response = requests.get(
-        f"https://localhost:{port}/api/terminals", verify=False
-    )
-    terminal_data = terminal_response.json()
+def is_idle(last_activity):
+    last_activity = datetime.strptime(last_activity, "%Y-%m-%dT%H:%M:%S.%fZ")
+    return (datetime.now() - last_activity).total_seconds() > time
 
-    last_activity = datetime.min
 
-    # Jupyter Notebookのセッションから最後のアクティビティ時間を取得
-    for notebook in notebook_data:
+def get_latest_terminal_activity():
+    response = requests.get(f"https://localhost:{port}/api/terminals", verify=False)
+    terminals = response.json()
+    latest_activity = None
+    for terminal in terminals:
         activity_time = datetime.strptime(
-            notebook["kernel"]["last_activity"], "%Y-%m-%dT%H:%M:%S.%fz"
+            terminal["last_activity"], "%Y-%m-%dT%H:%M:%S.%fZ"
         )
-        if activity_time > last_activity:
-            last_activity = activity_time
-
-    # ターミナルセッションが存在する場合、現在時刻を最後のアクティビティ時間として扱う
-    if len(terminal_data) > 0:
-        last_activity = datetime.now()
-
-    return last_activity
+        if latest_activity is None or activity_time > latest_activity:
+            latest_activity = activity_time
+    return latest_activity
 
 
-# ノートブックの名前を取得する関数
 def get_notebook_name():
     log_path = "/opt/ml/metadata/resource-metadata.json"
     with open(log_path, "r") as logs:
@@ -111,22 +92,26 @@ def get_notebook_name():
     return _logs["ResourceName"]
 
 
-# アイドル状態のチェック
-last_activity = get_last_activity()
-if (datetime.now() - last_activity).total_seconds() > time:
-    print(
-        "Jupyter has been idle for more than specified time. Last activity time = ",
-        last_activity,
-    )
-    idle = True
-else:
-    print("Jupyter is not idle. Last activity time = ", last_activity)
-    idle = False
+# ノートブックセッションのアイドル状態をチェック
+response = requests.get(f"https://localhost:{port}/api/sessions", verify=False)
+notebooks = response.json()
+notebook_idle = all(
+    notebook["kernel"]["execution_state"] == "idle"
+    and (ignore_connections or notebook["kernel"]["connections"] == 0)
+    and is_idle(notebook["kernel"]["last_activity"])
+    for notebook in notebooks
+)
 
-# インスタンスの停止処理
-if idle:
-    print("Closing idle notebook")
+# ターミナルセッションのアイドル状態をチェック
+latest_terminal_activity = get_latest_terminal_activity()
+terminal_idle = not latest_terminal_activity or is_idle(
+    latest_terminal_activity.isoformat()
+)
+
+# 両方がアイドル状態であればインスタンスを停止
+if notebook_idle and terminal_idle:
+    print("Closing idle notebook and terminal")
     client = boto3.client("sagemaker")
     client.stop_notebook_instance(NotebookInstanceName=get_notebook_name())
 else:
-    print("Notebook not idle. Pass.")
+    print("Notebook or terminal not idle. Pass.")

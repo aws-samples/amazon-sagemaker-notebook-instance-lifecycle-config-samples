@@ -22,23 +22,24 @@ import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-# 使用方法とヘルプ情報
+# Usage
 usageInfo = """Usage:
-This script checks if a notebook and terminal are idle for X seconds and if so, it'll stop the notebook:
+This scripts checks if a notebook is idle for X seconds if it does, it'll stop the notebook:
 python autostop.py --time <time_in_seconds> [--port <jupyter_port>] [--ignore-connections]
 Type "python autostop.py -h" for available options.
 """
+# Help info
 helpInfo = """-t, --time
     Auto stop time in seconds
 -p, --port
-    Jupyter port
+    jupyter port
 -c --ignore-connections
     Stop notebook once idle, ignore connected users
 -h, --help
     Help information
 """
 
-# コマンドラインパラメータの読み込み
+# Read in command-line parameters
 idle = True
 port = "8443"
 ignore_connections = False
@@ -62,27 +63,30 @@ except getopt.GetoptError:
     print(usageInfo)
     exit(1)
 
+# Missing configuration notification
+missingConfiguration = False
 if not time:
     print("Missing '-t' or '--time'")
+    missingConfiguration = True
+if missingConfiguration:
     exit(2)
 
 
 def is_idle(last_activity):
-    last_activity = datetime.strptime(last_activity, "%Y-%m-%dT%H:%M:%S.%fZ")
-    return (datetime.now() - last_activity).total_seconds() > time
+    last_activity = datetime.strptime(last_activity, "%Y-%m-%dT%H:%M:%S.%fz")
+    if (datetime.now() - last_activity).total_seconds() > time:
+        print("Kernel is idle. Last activity time = ", last_activity)
+        return True
+    else:
+        print("Kernel is not idle. Last activity time = ", last_activity)
+        return False
 
 
-def get_latest_terminal_activity():
-    response = requests.get(f"https://localhost:{port}/api/terminals", verify=False)
-    terminals = response.json()
-    latest_activity = None
-    for terminal in terminals:
-        activity_time = datetime.strptime(
-            terminal["last_activity"], "%Y-%m-%dT%H:%M:%S.%fZ"
-        )
-        if latest_activity is None or activity_time > latest_activity:
-            latest_activity = activity_time
-    return latest_activity
+def is_terminal_state(response):
+    for notebook in response:
+        if is_idle(notebook["last_activity"]):
+            return True
+    return False
 
 
 def get_notebook_name():
@@ -92,26 +96,51 @@ def get_notebook_name():
     return _logs["ResourceName"]
 
 
-# ノートブックセッションのアイドル状態をチェック
+# This is hitting Jupyter's sessions API: https://github.com/jupyter/jupyter/wiki/Jupyter-Notebook-Server-API#Sessions-API
 response = requests.get(f"https://localhost:{port}/api/sessions", verify=False)
-notebooks = response.json()
-notebook_idle = all(
-    notebook["kernel"]["execution_state"] == "idle"
-    and (ignore_connections or notebook["kernel"]["connections"] == 0)
-    and is_idle(notebook["kernel"]["last_activity"])
-    for notebook in notebooks
-)
+data = response.json()
+if len(data) > 0:
+    for notebook in data:
+        # Idleness is defined by Jupyter
+        # https://github.com/jupyter/notebook/issues/4634
+        if notebook["kernel"]["execution_state"] == "idle":
+            if not ignore_connections:
+                if notebook["kernel"]["connections"] == 0:
+                    if not is_idle(notebook["kernel"]["last_activity"]):
+                        idle = False
+                else:
+                    idle = False
+                    print(
+                        f"Notebook idle state set as {idle} because no kernel has been detected."
+                    )
+            else:
+                if not is_idle(notebook["kernel"]["last_activity"]):
+                    idle = False
+                    print(
+                        f"Notebook idle state set as {idle} since kernel connections are ignored."
+                    )
+        else:
+            print("Notebook is not idle:", notebook["kernel"]["execution_state"])
+            idle = False
+else:
+    client = boto3.client("sagemaker")
+    uptime = client.describe_notebook_instance(
+        NotebookInstanceName=get_notebook_name()
+    )["LastModifiedTime"]
+    if not is_idle(uptime.strftime("%Y-%m-%dT%H:%M:%S.%fz")):
+        idle = False
+        print(f"Notebook idle state set as {idle} since no sessions detected.")
 
-# ターミナルセッションのアイドル状態をチェック
-latest_terminal_activity = get_latest_terminal_activity()
-terminal_idle = not latest_terminal_activity or is_idle(
-    latest_terminal_activity.isoformat()
+# Check terminals is idle or not
+response = requests.get(
+    f"https://localhost:{port}/api/terminals",
+    verify=False,
 )
+idle = idle or is_terminal_state(data)
 
-# 両方がアイドル状態であればインスタンスを停止
-if notebook_idle and terminal_idle:
-    print("Closing idle notebook and terminal")
+if idle:
+    print("Closing idle notebook")
     client = boto3.client("sagemaker")
     client.stop_notebook_instance(NotebookInstanceName=get_notebook_name())
 else:
-    print("Notebook or terminal not idle. Pass.")
+    print("Kernel not idle. Pass.")

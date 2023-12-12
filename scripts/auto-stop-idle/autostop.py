@@ -134,7 +134,7 @@ else:
 
 # Check terminals is idle or not
 response = requests.get(
-    f"https://localhost:{port}//terminals",
+    f"https://localhost:{port}/api/terminals",
     verify=False,
 )
 data = response.json()

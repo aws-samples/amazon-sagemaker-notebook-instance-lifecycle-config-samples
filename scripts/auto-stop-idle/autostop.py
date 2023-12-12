@@ -138,7 +138,6 @@ response = requests.get(
     verify=False,
 )
 data = response.json()
-print(data)
 idle = idle or is_terminal_state(data)
 
 if idle:

@@ -83,8 +83,9 @@ def is_idle(last_activity):
 
 
 def is_terminal_state(response):
-    for notebook in response:
-        if is_idle(notebook["last_activity"]):
+    for terminal in response:
+        print(terminal)
+        if is_idle(terminal["last_activity"]):
             return True
     return False
 

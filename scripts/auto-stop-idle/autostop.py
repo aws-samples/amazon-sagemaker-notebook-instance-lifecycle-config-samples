@@ -137,7 +137,8 @@ response = requests.get(
     f"https://localhost:{port}//terminals",
     verify=False,
 )
-print(response)
+data = response.json()
+print(data)
 idle = idle or is_terminal_state(data)
 
 if idle:

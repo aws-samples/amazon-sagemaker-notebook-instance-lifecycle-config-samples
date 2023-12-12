@@ -133,9 +133,10 @@ else:
 
 # Check terminals is idle or not
 response = requests.get(
-    f"https://localhost:{port}/api/terminals",
+    f"https://localhost:{port}//terminals",
     verify=False,
 )
+print(response)
 idle = idle or is_terminal_state(data)
 
 if idle:

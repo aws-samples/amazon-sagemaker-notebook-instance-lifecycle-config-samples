@@ -133,13 +133,13 @@ else:
         print(f"Notebook idle state set as {idle} since no sessions detected.")
 
 # Check terminals is idle or not
-response = requests.get(
+terminal_response = requests.get(
     f"https://localhost:{port}/api/terminals",
     verify=False,
 )
-data = response.json()
+terminal_data = terminal_response.json()
 
-terminal_idle = is_terminal_state(data) if data else True
+terminal_idle = is_terminal_state(terminal_data) if terminal_data else True
 
 idle = idle and terminal_idle
 

@@ -138,7 +138,10 @@ response = requests.get(
     verify=False,
 )
 data = response.json()
-idle = idle and is_terminal_state(data)
+
+terminal_idle = is_terminal_state(data) if data else True
+
+idle = idle and terminal_idle
 
 if idle:
     print("Closing idle notebook")

@@ -14,6 +14,7 @@ for ENV in /home/ec2-user/anaconda3/envs/*; do
    # Check if the openssl.cnf file exists
    if [[ -f "$openssl_cnf_path" ]]; then
        # Use sed to make the required modifications
+       # openssl.cnf modifications are described here: https://github.com/openssl/openssl/blob/master/README-FIPS.md
        sed -i.bak 's|^# \.include fipsmodule\.cnf|\.include /home/ec2-user/anaconda3/envs/'"$ENV_NAME"'/ssl/fipsmodule.cnf|' "$openssl_cnf_path"
        sed -i.bak 's|^# fips = fips_sect|fips = fips_sect|' "$openssl_cnf_path"
        sed -i.bak 's|^# activate = 1|activate = 1|' "$openssl_cnf_path"

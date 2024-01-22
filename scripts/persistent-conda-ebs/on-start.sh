@@ -22,6 +22,7 @@ for env in $WORKING_DIR/miniconda/envs/*; do
     BASENAME=$(basename "$env")
     source activate "$BASENAME"
     python -m ipykernel install --user --name "$BASENAME" --display-name "Custom ($BASENAME)"
+    conda deactivate
 done
 
 # Optionally, uncomment these lines to disable SageMaker-provided Conda functionality.

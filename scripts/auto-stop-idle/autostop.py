@@ -68,13 +68,13 @@ if missingConfiguration:
     exit(2)
 
 
-def is_idle(last_activity):
+def is_idle(last_activity, process_type):
     last_activity = datetime.strptime(last_activity,"%Y-%m-%dT%H:%M:%S.%fz")
     if (datetime.now() - last_activity).total_seconds() > time:
-        print('Notebook is idle. Last activity time = ', last_activity)
+        print(process_type + ' is idle. Last activity time = ', last_activity)
         return True
     else:
-        print('Notebook is not idle. Last activity time = ', last_activity)
+        print(process_type + ' is not idle. Last activity time = ', last_activity)
         return False
 
 
@@ -94,13 +94,13 @@ if len(data) > 0:
         if notebook['kernel']['execution_state'] == 'idle':
             if not ignore_connections:
                 if notebook['kernel']['connections'] == 0:
-                    if not is_idle(notebook['kernel']['last_activity']):
+                    if not is_idle(notebook['kernel']['last_activity'], 'Notebook'):
                         idle = False
                 else:
                     idle = False
                     print('Notebook idle state set as %s because no kernel has been detected.' % idle)
             else:
-                if not is_idle(notebook['kernel']['last_activity']):
+                if not is_idle(notebook['kernel']['last_activity'], 'Notebook'):
                     idle = False
                     print('Notebook idle state set as %s since kernel connections are ignored.' % idle)
         else:
@@ -111,10 +111,18 @@ else:
     uptime = client.describe_notebook_instance(
         NotebookInstanceName=get_notebook_name()
     )['LastModifiedTime']
-    if not is_idle(uptime.strftime("%Y-%m-%dT%H:%M:%S.%fz")):
+    if not is_idle(uptime.strftime("%Y-%m-%dT%H:%M:%S.%fz"), 'Notebook'):
         idle = False
         print('Notebook idle state set as %s since no sessions detected.' % idle)
 
+# Look for idle terminal sessions.
+response = requests.get('https://localhost:'+port+'/api/terminals', verify=False)
+data = response.json()
+if len(data) > 0:
+    for terminal in data:
+        if not is_idle(terminal['last_activity'], 'Terminal ' + terminal['name']):
+            idle = False
+                        
 if idle:
     print('Closing idle notebook')
     client = boto3.client('sagemaker')

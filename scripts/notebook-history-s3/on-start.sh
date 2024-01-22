@@ -17,4 +17,4 @@ echo "Fetching the log history script"
 wget https://raw.githubusercontent.com/aws-samples/amazon-sagemaker-notebook-instance-lifecycle-config-samples/master/scripts/notebook-history-s3/notebook-history-s3.py
 echo "Starting the SageMaker logging script in cron"
 
-(crontab -l 2>/dev/null; echo "0 * * * * /usr/bin/python3 $PWD/notebook_history_s3.py") | crontab -
+(crontab -l 2>/dev/null; echo "0 * * * * /usr/bin/python3 $PWD/notebook-history-s3.py") | crontab -

@@ -7,11 +7,11 @@ set -e
 
 # PARAMETERS
 
-ENVIRONMENT=pytorch_p36
+ENVIRONMENT=pytorch_p37
 NOTEBOOK_FILE=/home/ec2-user/SageMaker/MyNotebook.ipynb
 
 source /home/ec2-user/anaconda3/bin/activate "$ENVIRONMENT"
 
-jupyter nbconvert "$NOTEBOOK_FILE" --ExecutePreprocessor.kernel_name=python --execute
+jupyter nbconvert "$NOTEBOOK_FILE" --ExecutePreprocessor.kernel_name=python --execute --to notebook
 
 source /home/ec2-user/anaconda3/bin/deactivate
